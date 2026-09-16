@@ -1,0 +1,16 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="refresh" content="0;url={{ routes.root_url }}">
+    <link rel="canonical" href="{{ routes.root_url }}">
+    <title>{{ shop.name }}</title>
+    {{ content_for_header }}
+    <script>
+      window.location.replace({{ routes.root_url | json }});
+    </script>
+  </head>
+  <body></body>
+</html>

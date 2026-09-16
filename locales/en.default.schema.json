@@ -323,6 +323,10 @@
     "cart": {
       "name": "Cart",
       "settings": {
+        "catalog_mode": {
+          "label": "Catalog only",
+          "info": "Hide cart, checkout, and add to cart. Products are shown as a menu with images and prices."
+        },
         "cart_type": {
           "label": "Type",
           "drawer": {
