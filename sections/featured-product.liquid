@@ -164,6 +164,7 @@
                     {{- product.selected_or_first_available_variant.sku -}}
                   </p>
                 {%- when 'quantity_selector' -%}
+                  {%- unless settings.catalog_mode -%}
                   <div
                     id="Quantity-Form-{{ section.id }}"
                     class="product-form__input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"
@@ -391,6 +392,7 @@
                       </volume-pricing>
                     {%- endif -%}
                   </div>
+                  {%- endunless -%}
                 {%- when 'share' -%}
                   {% liquid
                     assign share_url = product.selected_variant.url | default: product.url | prepend: request.origin
@@ -483,7 +485,9 @@
     </product-component>
   {%- endunless -%}
 
-  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  {%- unless settings.catalog_mode -%}
+    <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  {%- endunless -%}
   {%- if section.settings.image_zoom == 'hover' -%}
     <script id="EnableZoomOnHover-featured" src="{{ 'magnify.js' | asset_url }}" defer="defer"></script>
   {%- endif %}

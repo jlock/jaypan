@@ -29,6 +29,11 @@
   {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
   {{ 'coming-soon-overlay.css' | asset_url | stylesheet_tag }}
 {%- endunless -%}
+{%- liquid
+  if settings.catalog_mode
+    assign quick_add = 'none'
+  endif
+-%}
 {%- if card_product and card_product != empty -%}
   {%- liquid
     assign ratio = 1
@@ -293,6 +298,7 @@
             </div>
           </div>
           {% assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id %}
+          {%- unless settings.catalog_mode -%}
           {% if quick_add == 'standard' %}
             <div class="quick-add no-js-hidden">
               {%- liquid
@@ -552,6 +558,7 @@
               </div>
             {% endif %}
           {% endif %}
+          {%- endunless -%}
           <div class="card__badge {{ settings.badge_position }}">
             {%- if card_product.available == false -%}
               <span

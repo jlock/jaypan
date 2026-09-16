@@ -40,7 +40,9 @@
   {%- endstyle -%}
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
-  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  {%- unless settings.catalog_mode -%}
+    <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  {%- endunless -%}
   {%- if product.quantity_price_breaks_configured? -%}
     <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
@@ -229,6 +231,7 @@
                     </details>
                   </div>
                 {%- when 'quantity_selector' -%}
+                  {%- unless settings.catalog_mode -%}
                   <div
                     id="Quantity-Form-{{ section.id }}"
                     class="product-form__input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"
@@ -455,6 +458,7 @@
                       </volume-pricing>
                     {%- endif -%}
                   </div>
+                  {%- endunless -%}
                 {%- when 'popup' -%}
                   <modal-opener
                     class="product-popup-modal__opener quick-add-hidden"
@@ -539,7 +543,7 @@
                   {%- endif -%}
                 {%- when 'complementary' -%}
                   <product-recommendations
-                    class="complementary-products quick-add-hidden{% if block.settings.make_collapsible_row %} is-accordion{% endif %}{% if block.settings.enable_quick_add %} complementary-products-contains-quick-add{% endif %}"
+                    class="complementary-products quick-add-hidden{% if block.settings.make_collapsible_row %} is-accordion{% endif %}{% if settings.catalog_mode == false and block.settings.enable_quick_add %} complementary-products-contains-quick-add{% endif %}"
                     data-url="{{ routes.product_recommendations_url }}?limit={{ block.settings.product_list_limit }}&intent=complementary"
                     data-section-id="{{ section.id }}"
                     data-product-id="{{ product.id }}"
@@ -601,7 +605,7 @@
                                       offset: continue
                                     -%}
                                       <li>
-                                        {%- if block.settings.enable_quick_add -%}
+                                        {%- if settings.catalog_mode == false and block.settings.enable_quick_add -%}
                                           {% assign quick_add = 'standard' %}
                                         {%- else -%}
                                           {% assign quick_add = 'none' %}
@@ -681,7 +685,7 @@
                     {%- endif -%}
                     {{ 'component-card.css' | asset_url | stylesheet_tag }}
                     {{ 'component-complementary-products.css' | asset_url | stylesheet_tag }}
-                    {%- if block.settings.enable_quick_add -%}
+                    {%- if settings.catalog_mode == false and block.settings.enable_quick_add -%}
                       {{ 'quick-add.css' | asset_url | stylesheet_tag }}
                       <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
                     {%- endif -%}

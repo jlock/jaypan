@@ -1403,6 +1403,13 @@
     "name": "t:settings_schema.cart.name",
     "settings": [
       {
+        "type": "checkbox",
+        "id": "catalog_mode",
+        "label": "t:settings_schema.cart.settings.catalog_mode.label",
+        "info": "t:settings_schema.cart.settings.catalog_mode.info",
+        "default": true
+      },
+      {
         "type": "select",
         "id": "cart_type",
         "options": [
