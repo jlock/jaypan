@@ -6,16 +6,23 @@
   {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
 
-{%- unless section.settings.quick_add == 'none' -%}
+{%- liquid
+  assign quick_add = section.settings.quick_add
+  if settings.catalog_mode
+    assign quick_add = 'none'
+  endif
+-%}
+
+{%- unless quick_add == 'none' -%}
   {{ 'quick-add.css' | asset_url | stylesheet_tag }}
 {%- endunless -%}
 
-{%- if section.settings.quick_add == 'standard' -%}
+{%- if quick_add == 'standard' -%}
   <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
-{%- if section.settings.quick_add == 'bulk' -%}
+{%- if quick_add == 'bulk' -%}
   <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
@@ -153,7 +160,7 @@
                 class="
                   grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
                   grid--{{ section.settings.columns_desktop }}-col-desktop
-                  {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
+                  {% if quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
                 "
               >
                 {% assign skip_card_product_styles = false %}
@@ -178,7 +185,7 @@
                       show_rating: section.settings.show_rating,
                       lazy_load: lazy_load,
                       skip_styles: skip_card_product_styles,
-                      quick_add: section.settings.quick_add,
+                      quick_add: quick_add,
                       section_id: section.id,
                       product_view_context: 'collection'
                     %}

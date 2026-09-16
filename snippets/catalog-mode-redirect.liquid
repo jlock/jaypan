@@ -1,0 +1,64 @@
+{% comment %}
+  When catalog mode is on, send cart and checkout visits back home
+  and block leftover cart forms or links.
+{% endcomment %}
+{%- if settings.catalog_mode -%}
+  <script>
+    (function () {
+      var rootUrl = {{ routes.root_url | json }};
+      var cartUrl = {{ routes.cart_url | json }};
+
+      var isCommercePath = function (pathname) {
+        if (!pathname) return false;
+        if (cartUrl && (pathname === cartUrl || pathname.indexOf(cartUrl + '/') === 0)) {
+          return true;
+        }
+        return /(^|\/)(cart|checkout|checkouts)(\/|$)/.test(pathname);
+      };
+
+      if (isCommercePath(window.location.pathname)) {
+        window.location.replace(rootUrl);
+        return;
+      }
+
+      document.addEventListener(
+        'click',
+        function (event) {
+          var link = event.target.closest && event.target.closest('a[href]');
+          if (!link) return;
+
+          try {
+            var url = new URL(link.href, window.location.origin);
+            if (isCommercePath(url.pathname)) {
+              event.preventDefault();
+              window.location.replace(rootUrl);
+            }
+          } catch (error) {
+            /* Ignore unparsable hrefs */
+          }
+        },
+        true
+      );
+
+      document.addEventListener(
+        'submit',
+        function (event) {
+          var form = event.target;
+          if (!form || !form.getAttribute) return;
+
+          var action = form.getAttribute('action') || '';
+          var isCartForm =
+            form.getAttribute('data-type') === 'add-to-cart-form' ||
+            /\/cart(\/|$)/.test(action) ||
+            form.querySelector('[name="add"]');
+
+          if (isCartForm) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        },
+        true
+      );
+    })();
+  </script>
+{%- endif -%}
