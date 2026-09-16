@@ -7,7 +7,7 @@
         "products_to_show": 25,
         "title": "Menu",
         "heading_size": "h1",
-        "description": "<p>Photos and prices for what we bake. Open an item to read more about it.</p>",
+        "description": "<p>All smaller items are 6 for 12$. Tap an item to read more about it.</p>",
         "show_description": false,
         "description_style": "body",
         "columns_desktop": 3,
