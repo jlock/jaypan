@@ -27,6 +27,7 @@
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
   {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
+  {{ 'coming-soon-overlay.css' | asset_url | stylesheet_tag }}
 {%- endunless -%}
 {%- if card_product and card_product != empty -%}
   {%- liquid
@@ -106,6 +107,7 @@
                   >
                 {%- endif -%}
               </div>
+              {% render 'coming-soon-overlay', product: card_product %}
             </div>
           {%- endif -%}
           <div class="card__content">

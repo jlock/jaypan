@@ -1,0 +1,25 @@
+{% comment %}
+  Darkens a product image and shows a "Coming soon" label when the product has a "wip" tag.
+
+  Accepts:
+  - product: {Object} Product Liquid object
+{% endcomment %}
+
+{%- liquid
+  assign is_wip = false
+  if product != blank
+    for tag in product.tags
+      assign downcased_tag = tag | downcase
+      if downcased_tag == 'wip'
+        assign is_wip = true
+        break
+      endif
+    endfor
+  endif
+-%}
+
+{%- if is_wip -%}
+  <div class="coming-soon-overlay">
+    <span class="coming-soon-overlay__label">{{ 'products.product.coming_soon' | t }}</span>
+  </div>
+{%- endif -%}

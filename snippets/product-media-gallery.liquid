@@ -42,6 +42,8 @@
   endif
 -%}
 
+{{ 'coming-soon-overlay.css' | asset_url | stylesheet_tag }}
+
 <media-gallery
   id="MediaGallery-{{ section.id }}"
   role="region"
