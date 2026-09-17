@@ -1,0 +1,45 @@
+.menu-collections__intro {
+  margin-bottom: 1.5rem;
+}
+
+.menu-collections__intro .title:not(:only-child) {
+  margin-bottom: 1rem;
+}
+
+.menu-collection {
+  padding-bottom: 1.5rem;
+}
+
+.menu-collection + .menu-collection {
+  margin-top: 2.5rem;
+  padding-top: 3.5rem;
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.12);
+}
+
+.menu-collection__header {
+  margin-bottom: 2rem;
+}
+
+.menu-collection__title {
+  margin: 0;
+}
+
+.menu-collection__description {
+  margin-top: 0.8rem;
+  max-width: 68rem;
+}
+
+.menu-collection__description > * {
+  margin: 0;
+}
+
+.menu-collection__description > * + * {
+  margin-top: 0.8rem;
+}
+
+@media screen and (min-width: 750px) {
+  .menu-collection + .menu-collection {
+    margin-top: 3rem;
+    padding-top: 4.5rem;
+  }
+}
