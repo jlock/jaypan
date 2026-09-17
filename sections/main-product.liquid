@@ -107,6 +107,9 @@
                         {{ product.title | escape }}
                       </h2>
                     </a>
+                    {%- if product.media.size == 0 -%}
+                      {% render 'coming-soon-overlay', product: product, inline: true %}
+                    {%- endif -%}
                   </div>
                 {%- when 'price' -%}
                   <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
@@ -213,23 +216,45 @@
                 {%- when 'custom_liquid' -%}
                   {{ block.settings.custom_liquid }}
                 {%- when 'collapsible_tab' -%}
-                  <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
-                    <details id="Details-{{ block.id }}-{{ section.id }}">
-                      <summary>
-                        <div class="summary__title">
-                          {% render 'icon-accordion', icon: block.settings.icon %}
-                          <h2 class="h4 accordion__title inline-richtext">
-                            {{ block.settings.heading | default: block.settings.page.title | escape }}
-                          </h2>
+                  {%- liquid
+                    assign accordion_content = block.settings.content
+                    assign hide_accordion = false
+
+                    if block.settings.metafield_key != blank
+                      assign accordion_metafield = product.metafields.custom[block.settings.metafield_key]
+                      if accordion_metafield.value == blank
+                        assign accordion_metafield = product.metafields.shopify[block.settings.metafield_key]
+                      endif
+
+                      if accordion_metafield.value == blank
+                        assign hide_accordion = true
+                      else
+                        assign accordion_content = accordion_metafield | metafield_tag
+                        if accordion_content == blank
+                          assign accordion_content = accordion_metafield.value
+                        endif
+                      endif
+                    endif
+                  -%}
+                  {%- unless hide_accordion -%}
+                    <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
+                      <details id="Details-{{ block.id }}-{{ section.id }}">
+                        <summary>
+                          <div class="summary__title">
+                            {% render 'icon-accordion', icon: block.settings.icon %}
+                            <h2 class="h4 accordion__title inline-richtext">
+                              {{ block.settings.heading | default: block.settings.page.title | escape }}
+                            </h2>
+                          </div>
+                          {{- 'icon-caret.svg' | inline_asset_content -}}
+                        </summary>
+                        <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
+                          {{ accordion_content }}
+                          {{ block.settings.page.content }}
                         </div>
-                        {{- 'icon-caret.svg' | inline_asset_content -}}
-                      </summary>
-                      <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
-                        {{ block.settings.content }}
-                        {{ block.settings.page.content }}
-                      </div>
-                    </details>
-                  </div>
+                      </details>
+                    </div>
+                  {%- endunless -%}
                 {%- when 'quantity_selector' -%}
                   {%- unless settings.catalog_mode -%}
                   <div
@@ -1223,6 +1248,12 @@
           "type": "page",
           "id": "page",
           "label": "t:sections.main-product.blocks.collapsible_tab.settings.page.label"
+        },
+        {
+          "type": "text",
+          "id": "metafield_key",
+          "label": "Product metafield key",
+          "info": "Uses product.metafields.custom or product.metafields.shopify with this key. The row is hidden when that metafield is empty."
         }
       ]
     },

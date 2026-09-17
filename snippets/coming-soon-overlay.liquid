@@ -1,8 +1,10 @@
 {% comment %}
-  Darkens a product image and shows a "Coming soon" label when the product has a "wip" tag.
+  Shows a "Coming soon" label when the product has a "wip" tag.
+  Renders as an overlay on media, or as inline text when `inline` is true.
 
   Accepts:
   - product: {Object} Product Liquid object
+  - inline: {Boolean} Render as text instead of a full overlay. Default: false
 {% endcomment %}
 
 {%- liquid
@@ -19,7 +21,7 @@
 -%}
 
 {%- if is_wip -%}
-  <div class="coming-soon-overlay">
+  <div class="coming-soon-overlay{% if inline %} coming-soon-overlay--inline{% endif %}">
     <span class="coming-soon-overlay__label">{{ 'products.product.coming_soon' | t }}</span>
   </div>
 {%- endif -%}

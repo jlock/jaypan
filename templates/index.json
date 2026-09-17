@@ -2,6 +2,38 @@
   "sections": {
     "menu_collections": {
       "type": "menu-collections",
+      "blocks": {
+        "collection_kashipan": {
+          "type": "collection",
+          "settings": {
+            "collection": "kashipan"
+          }
+        },
+        "collection_sozaipan": {
+          "type": "collection",
+          "settings": {
+            "collection": "sozaipan"
+          }
+        },
+        "collection_soft_france": {
+          "type": "collection",
+          "settings": {
+            "collection": "soft-france"
+          }
+        },
+        "collection_shokupan": {
+          "type": "collection",
+          "settings": {
+            "collection": "shokupan"
+          }
+        }
+      },
+      "block_order": [
+        "collection_shokupan",
+        "collection_kashipan",
+        "collection_soft_france",
+        "collection_sozaipan"
+      ],
       "settings": {
         "title": "Menu",
         "heading_size": "h1",

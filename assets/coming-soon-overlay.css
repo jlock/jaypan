@@ -28,6 +28,50 @@
   white-space: nowrap;
 }
 
+.card__inner > .coming-soon-overlay:not(.coming-soon-overlay--inline) {
+  border-radius: inherit;
+}
+
+.coming-soon-overlay--inline {
+  position: static;
+  inset: auto;
+  background: none;
+  padding: 0.8rem 0 0;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.card__inner .coming-soon-overlay--inline {
+  justify-content: center;
+}
+
+.card--standard.card--text.card--coming-soon:not(.card--horizontal) > .card__content .card__heading:not(.card__heading--placeholder) {
+  display: block;
+}
+
+.card--standard.card--text.card--coming-soon .card__inner > .card__content {
+  visibility: hidden;
+}
+
+.card--standard.card--text:not(.card--horizontal) > .card__content .coming-soon-overlay--inline {
+  display: none;
+}
+
+.product__title .coming-soon-overlay--inline {
+  padding-top: 1.2rem;
+}
+
+.product--no-media .product__title .coming-soon-overlay--inline {
+  justify-content: center;
+}
+
+.coming-soon-overlay--inline .coming-soon-overlay__label {
+  color: rgb(var(--color-foreground));
+  border-color: rgba(var(--color-foreground), 0.35);
+  background: rgba(var(--color-foreground), 0.08);
+  backdrop-filter: none;
+}
+
 .product-media-container .coming-soon-overlay__label {
   font-size: 1.4rem;
   padding: 1rem 1.8rem;
