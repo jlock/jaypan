@@ -12,16 +12,16 @@
     "menu_collections": {
       "type": "menu-collections",
       "blocks": {
+        "collection_shokupan": {
+          "type": "collection",
+          "settings": {
+            "collection": "shokupan"
+          }
+        },
         "collection_kashipan": {
           "type": "collection",
           "settings": {
             "collection": "kashipan"
-          }
-        },
-        "collection_sozaipan": {
-          "type": "collection",
-          "settings": {
-            "collection": "sozaipan"
           }
         },
         "collection_soft_france": {
@@ -30,10 +30,10 @@
             "collection": "soft-france"
           }
         },
-        "collection_shokupan": {
+        "collection_sozaipan": {
           "type": "collection",
           "settings": {
-            "collection": "shokupan"
+            "collection": "sozaipan"
           }
         }
       },
@@ -44,9 +44,9 @@
         "collection_sozaipan"
       ],
       "settings": {
-        "title": "Menu",
+        "title": "Our products",
         "heading_size": "h1",
-        "description": "",
+        "description": "<p>Browse our selection and prices below. Tap an item for details. Products are made in limited quantities, so availability may vary.</p>",
         "description_style": "body",
         "collection_heading_size": "h2",
         "products_to_show": 50,
@@ -64,5 +64,7 @@
       }
     }
   },
-  "order": ["menu_collections"]
+  "order": [
+    "menu_collections"
+  ]
 }
