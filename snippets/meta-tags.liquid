@@ -26,7 +26,16 @@
   <meta property="og:image:height" content="{{ page_image.height }}">
 {%- endif -%}
 
-{%- if request.page_type == 'product' -%}
+{%- liquid
+  assign hide_og_price = false
+  if request.page_type == 'product' and product != blank
+    assign downcased_tags = product.tags | join: '|||' | downcase | split: '|||'
+    if downcased_tags contains 'bundle'
+      assign hide_og_price = true
+    endif
+  endif
+-%}
+{%- if request.page_type == 'product' and hide_og_price == false -%}
   <meta property="og:price:amount" content="{{ product.price | money_without_currency | strip_html }}">
   <meta property="og:price:currency" content="{{ cart.currency.iso_code }}">
 {%- endif -%}

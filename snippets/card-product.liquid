@@ -48,10 +48,15 @@
     endif
 
     assign is_coming_soon = false
+    assign is_bundle = false
     for tag in card_product.tags
       assign downcased_tag = tag | downcase
       if downcased_tag == 'wip'
         assign is_coming_soon = true
+      elsif downcased_tag == 'bundle'
+        assign is_bundle = true
+      endif
+      if is_coming_soon and is_bundle
         break
       endif
     endfor
@@ -145,7 +150,7 @@
               </h3>
             </div>
             <div class="card__badge {{ settings.badge_position }}">
-              {%- if card_product.compare_at_price > card_product.price and card_product.available -%}
+              {%- if is_bundle == false and card_product.compare_at_price > card_product.price and card_product.available -%}
                 <span
                   id="NoMediaStandardBadge-{{ section_id }}-{{ card_product.id }}"
                   class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
@@ -225,7 +230,7 @@
               {%- endif -%}
 
               {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
-              {%- if card_product.quantity_price_breaks_configured? -%}
+              {%- if is_bundle == false and card_product.quantity_price_breaks_configured? -%}
                 {% if card_product.variants_count == 1 and quick_add == 'bulk' %}
                   {% liquid
                     assign quantity_rule = card_product.selected_or_first_available_variant.quantity_rule
@@ -534,7 +539,7 @@
                             <h3>{{ card_product.title | escape }}</h3>
                           </a>
                           {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
-                          {%- if card_product.quantity_price_breaks_configured? -%}
+                          {%- if is_bundle == false and card_product.quantity_price_breaks_configured? -%}
                             <div class="card__information-volume-pricing-note">
                               <span class="caption">{{ 'products.product.volume_pricing.note' | t }}</span>
                             </div>
@@ -549,7 +554,7 @@
                             </h3>
                           </a>
                           {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
-                          {%- if card_product.quantity_price_breaks_configured? -%}
+                          {%- if is_bundle == false and card_product.quantity_price_breaks_configured? -%}
                             <div class="card__information-volume-pricing-note">
                               <span class="caption">{{ 'products.product.volume_pricing.note' | t }}</span>
                             </div>
@@ -571,7 +576,7 @@
           {% endif %}
           {%- endunless -%}
           <div class="card__badge {{ settings.badge_position }}">
-            {%- if card_product.compare_at_price > card_product.price and card_product.available -%}
+            {%- if is_bundle == false and card_product.compare_at_price > card_product.price and card_product.available -%}
               <span
                 id="Badge-{{ section_id }}-{{ card_product.id }}"
                 class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
