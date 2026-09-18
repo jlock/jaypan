@@ -9,10 +9,20 @@
   - price_class: {String} Adds a price class to the price element (optional)
   - show_compare_at_price: {Boolean} Renders the compare at price if the product matches the condition (optional)
 
+  Products with a "bundle" tag are not sold individually, so their price is omitted.
+
   Usage:
   {% render 'price', product: product %}
 {% endcomment %}
 {%- liquid
+  assign hide_price = false
+  if product != blank
+    assign downcased_tags = product.tags | join: '|||' | downcase | split: '|||'
+    if downcased_tags contains 'bundle'
+      assign hide_price = true
+    endif
+  endif
+
   if use_variant
     assign target = product.selected_or_first_available_variant
   elsif placeholder
@@ -40,6 +50,7 @@
   endif
 -%}
 
+{%- if hide_price == false -%}
 {%- unless target == null and placeholder == null -%}
   <div
     class="
@@ -119,3 +130,4 @@
     {%- endif -%}
   </div>
 {% endunless %}
+{%- endif -%}
